@@ -116,6 +116,7 @@ const NoteList = () => {
   const [newNote, setNewNote] = useState({ title: "", content: "" });
   const [editingNote, setEditingNote] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     fetchNotes();
@@ -126,8 +127,14 @@ const NoteList = () => {
       setIsLoading(true);
       const res = await api.get("/notes");
       setNotes(res.data);
+      setErrorMessage(''); // Clear any previous errors on success
     } catch (err) {
-      console.error(err.response.data.msg);
+      console.error(err);
+      if (err.response && err.response.status === 401) {
+        setErrorMessage('You are not authorized to view notes. Please log in.');
+      } else {
+        setErrorMessage('Failed to fetch notes.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -140,6 +147,7 @@ const NoteList = () => {
       setEditingNote(null);
     } catch (err) {
       console.error(err.response.data.msg);
+      setErrorMessage('Failed to update note.');
     }
   };
 
@@ -155,6 +163,7 @@ const NoteList = () => {
       setNewNote({ title: "", content: "" });
     } catch (err) {
       console.error(err.response.data.msg);
+      setErrorMessage('Failed to create note. Please log in first.');
     }
   };
 
@@ -164,6 +173,7 @@ const NoteList = () => {
       setNotes(notes.filter((note) => note._id !== id));
     } catch (err) {
       console.error(err.response.data.msg);
+      setErrorMessage('Failed to delete note.');
     }
   };
 
@@ -189,6 +199,7 @@ const NoteList = () => {
 
   return (
     <div style={noteListStyles.container}>
+      {errorMessage && <p style={{ color: 'red', textAlign: 'center', marginBottom: '1rem' }}>{errorMessage}</p>}
       {/* Create Note Form */}
       <form onSubmit={createNote} style={noteListStyles.form}>
         <h3 style={noteListStyles.formTitle}>Create New Note</h3>
