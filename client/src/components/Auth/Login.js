@@ -120,7 +120,6 @@ const Login = () => {
 
   return (
     <div style={loginStyles.container}>
-      <h2 style={loginStyles.title}>Welcome Back</h2>
       <form onSubmit={handleSubmit} style={loginStyles.form}>
         <div style={loginStyles.inputGroup}>
           <label htmlFor="login-username" style={loginStyles.label}>Username</label>

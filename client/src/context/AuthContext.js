@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/notesApi';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext();
 
@@ -10,10 +10,15 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decodedUser = jwtDecode(token);
-      setUser(decodedUser.user);
+    try {
+      const token = localStorage.getItem('token');
+      if (token) {
+        const decodedUser = jwtDecode(token);
+        setUser(decodedUser.user);
+      }
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      localStorage.removeItem('token');
     }
   }, []);
 
@@ -24,8 +29,10 @@ export const AuthProvider = ({ children }) => {
       const decodedUser = jwtDecode(res.data.token);
       setUser(decodedUser.user);
       navigate('/');
+      return res; // Return the response for success handling in the component
     } catch (err) {
-      console.error(err.response.data.msg);
+      console.error(err.response?.data?.msg || 'Login failed');
+      throw err; // Propagate the error to the calling component
     }
   };
 
@@ -36,8 +43,10 @@ export const AuthProvider = ({ children }) => {
       const decodedUser = jwtDecode(res.data.token);
       setUser(decodedUser.user);
       navigate('/');
+      return res; // Return the response for success handling in the component
     } catch (err) {
-      console.error(err.response.data.msg);
+      console.error(err.response?.data?.msg || 'Registration failed');
+      throw err; // Propagate the error to the calling component
     }
   };
 

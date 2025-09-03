@@ -90,7 +90,7 @@ const Navbar = () => {
         <div style={navbarStyles.menu}>
           {user ? (
             <div style={navbarStyles.user}>
-              <span style={navbarStyles.welcome}>Welcome, {user.username}</span>
+              <span style={navbarStyles.welcome}>{user.username}</span>
               <button 
                 onClick={logout} 
                 style={navbarStyles.logoutButton}

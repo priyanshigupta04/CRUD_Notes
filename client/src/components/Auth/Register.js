@@ -127,7 +127,6 @@ const Register = () => {
 
   return (
     <div style={registerStyles.container}>
-      <h2 style={registerStyles.title}>Create Account</h2>
       <form onSubmit={handleSubmit} style={registerStyles.form}>
         <div style={registerStyles.inputGroup}>
           <label htmlFor="username" style={registerStyles.label}>Username</label>
