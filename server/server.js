@@ -24,8 +24,7 @@ const corsOptions = {
   optionsSuccessStatus: 200 // For legacy browser support
 };
 
-app.use(cors(corsOptions)); // Use the cors middleware with your options
-
+app.use(cors(corsOptions)); // Use the cors middleware before any routes
 app.use(express.json());
 
 app.get('/', (req, res) => {
