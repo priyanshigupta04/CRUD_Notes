@@ -9,13 +9,7 @@ const app = express();
 connectDB();
 
 app.use(express.json());
-
-// Configure CORS to allow your frontend URL
-app.use(cors({
-  origin: 'https://crud-notes-frontend-08ro.onrender.com', // Replace with your actual frontend Render URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true // Allow cookies/auth headers if needed
-}));
+app.use(cors());
 
 // Define routes
 app.use('/api/auth', require('./routes/authRoutes'));
