@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://crud-notes-backend-6uf2.onrender.com/api', // Make sure this matches your backend URL
+  baseURL: 'http://localhost:5000/api',
+
+  // baseURL: 'https://crud-notes-backend-6uf2.onrender.com/api', // Make sure this matches your backend URL
 });
 
 api.interceptors.request.use(
