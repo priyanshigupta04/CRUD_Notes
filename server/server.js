@@ -13,39 +13,18 @@ connectDB();
 // Middleware
 app.use(express.json());
 
-// ✅ Correct CORS configuration
-const allowedOrigins = [
-  "http://localhost:3000", // local frontend
-  "https://crud-notes-frontend-08ro.onrender.com" // deployed frontend on Render
-];
-
+// ✅ CORS configuration
 const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like Postman, curl, or mobile apps)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      return callback(null, true);
-    } else {
-      return callback(new Error("Not allowed by CORS"), false);
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: [
-    "Origin",
-    "X-Requested-With",
-    "Content-Type",
-    "Accept",
-    "Authorization",
-    "x-auth-token"
+  origin: [
+    "http://localhost:3000", // local frontend
+    "https://crud-notes-frontend-08ro.onrender.com" // deployed frontend on Render
   ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
   credentials: true
 };
 
-// Apply CORS middleware
 app.use(cors(corsOptions));
-
-// Handle preflight requests
-app.options('*', cors(corsOptions));
 
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));
